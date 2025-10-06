@@ -102,14 +102,22 @@ const ShareReport: React.FC<ShareReportProps> = ({ selectedDate = new Date() }) 
       // Generate shareable URL
       // Check if we're in Electron or web app
       const isElectron = window.navigator.userAgent.includes('Electron');
+      const isLocalhost = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1');
+      
+      console.log('User Agent:', window.navigator.userAgent);
+      console.log('Is Electron:', isElectron);
+      console.log('Is Localhost:', isLocalhost);
+      console.log('Window Origin:', window.location.origin);
       
       let shareableUrl: string;
-      if (isElectron) {
-        // In Electron app, use the deployed Vercel URL
+      if (isElectron || isLocalhost) {
+        // In Electron app or localhost development, use the deployed Vercel URL
         shareableUrl = `https://m-tracker-app.vercel.app/report/${report.id}`;
+        console.log('Using Vercel URL:', shareableUrl);
       } else {
         // In web app, use current origin
         shareableUrl = `${window.location.origin}/report/${report.id}`;
+        console.log('Using current origin URL:', shareableUrl);
       }
       
       setShareUrl(shareableUrl);
@@ -307,7 +315,7 @@ const ShareReport: React.FC<ShareReportProps> = ({ selectedDate = new Date() }) 
               <div className="space-y-2">
                 <div>
                   <div className="text-xs font-medium text-green-700 mb-1">
-                    💻 Computer URL (localhost):
+                    {shareUrl?.includes('vercel.app') ? '🌐 Shareable URL (Vercel):' : '💻 Computer URL (localhost):'}
                   </div>
                   <div className="text-xs text-green-600 break-all bg-white p-2 rounded border">
                     {shareUrl}
@@ -365,7 +373,7 @@ const ShareReport: React.FC<ShareReportProps> = ({ selectedDate = new Date() }) 
                   className="flex-1"
                 >
                   <Copy className="w-4 h-4 mr-2" />
-                  Copy Computer Link
+                  {shareUrl?.includes('vercel.app') ? 'Copy Shareable Link' : 'Copy Computer Link'}
                 </Button>
                 
                 <Button 
