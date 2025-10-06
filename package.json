@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
     "dev:vite": "vite",
-    "dev:electron": "wait-on http://localhost:5175 && electron dist/main/main.js",
+    "dev:electron": "wait-on http://localhost:5173 && electron dist/main/main.js",
     "build": "npm run build:vite && npm run build:electron",
     "build:vite": "vite build",
     "build:web": "vite build --config vite.web.config.ts",
