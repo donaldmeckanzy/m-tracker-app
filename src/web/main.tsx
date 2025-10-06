@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import PublicReport from './components/PublicReport';
+import SimpleReport from './components/SimpleReport';
 import TestReport from './components/TestReport';
 import '../renderer/src/index.css';
 
@@ -15,6 +16,7 @@ function WebApp() {
         <div className="min-h-screen bg-background">
           <Routes>
             <Route path="/test" element={<TestReport />} />
+            <Route path="/simple/:id" element={<SimpleReport />} />
             <Route path="/report/:id" element={<PublicReport />} />
             <Route path="/" element={
               <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
@@ -29,10 +31,17 @@ function WebApp() {
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       To view a report, you need a valid report link shared by an M-Tracker user.
                     </p>
-                    <div className="mt-4">
-                      <a href="/test" className="text-blue-600 hover:text-blue-800">
-                        🧪 Test Page (Debug)
-                      </a>
+                    <div className="mt-4 space-y-2">
+                      <div>
+                        <a href="/test" className="text-blue-600 hover:text-blue-800">
+                          🧪 Test Page (Debug)
+                        </a>
+                      </div>
+                      <div>
+                        <a href="/simple/test-id" className="text-green-600 hover:text-green-800">
+                          🔍 Simple Report (Debug)
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
