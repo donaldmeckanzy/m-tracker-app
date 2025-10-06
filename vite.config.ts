@@ -7,8 +7,11 @@ export default defineConfig({
   plugins: [react()],
   root: './src/renderer',
   build: {
-    outDir: process.env.VERCEL ? '../../dist' : '../../dist/renderer',
+    outDir: '../../dist',
     emptyOutDir: true,
+    rollupOptions: {
+      input: './src/renderer/index.html',
+    },
   },
   server: {
     port: 5173,
@@ -16,7 +19,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src/renderer'),
+      '@': path.resolve(__dirname, './src/renderer/src'),
     },
   },
   base: './',

@@ -9,7 +9,7 @@
     "dev:electron": "wait-on http://localhost:5173 && electron dist/main/main.js",
     "build": "npm run build:vite && npm run build:electron",
     "build:vite": "vite build",
-    "build:web": "VERCEL=true vite build",
+    "build:web": "cd src/renderer && vite build --outDir ../../dist",
     "build:electron": "tsc -p tsconfig.main.json",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
