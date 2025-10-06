@@ -100,19 +100,23 @@ const ShareReport: React.FC<ShareReportProps> = ({ selectedDate = new Date() }) 
       console.log('Report created:', report);
 
       // Generate shareable URL
-      // For Electron app, we need to use a web-accessible URL
-      // In development, this will be localhost, but in production it should be your domain
-      const baseUrl = window.location.origin;
+      // Check if we're in Electron or web app
+      const isElectron = window.navigator.userAgent.includes('Electron');
       
-      // Check if we're in development (localhost) and provide a warning
-      const isDevelopment = baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1');
-      const shareableUrl = `${baseUrl}/report/${report.id}`;
+      let shareableUrl: string;
+      if (isElectron) {
+        // In Electron app, use the deployed Vercel URL
+        shareableUrl = `https://m-tracker-app.vercel.app/report/${report.id}`;
+      } else {
+        // In web app, use current origin
+        shareableUrl = `${window.location.origin}/report/${report.id}`;
+      }
       
       setShareUrl(shareableUrl);
 
-      // If in development, try to generate network-accessible URL
-      if (isDevelopment) {
-        console.warn('Development URL generated. This will only work on the same network.');
+      // For local development, also provide network URL
+      const isDevelopment = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1');
+      if (isDevelopment && !isElectron) {
         try {
           const ip = await getComputerIP();
           if (ip && !ip.startsWith('127.')) {
