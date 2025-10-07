@@ -1,98 +1,115 @@
-# Vercel Deployment Guide
+# Vercel Deployment Instructions
 
-This guide will help you deploy the M-Tracker web version to Vercel for live sharing links.
+## Automatic Deployment Setup
 
-## Step 1: Create GitHub Repository
+Your M-Tracker web interface is now ready for deployment on Vercel. Since your GitHub repository syncs automatically with Vercel, follow these steps:
 
-1. Go to [GitHub.com](https://github.com) and sign in
-2. Click the "+" icon in the top right corner → "New repository"
-3. Repository name: `m-tracker-app`
-4. Description: `Cross-platform productivity task tracker with accountability sharing`
-5. Make it **Public** (required for Vercel free tier)
-6. Don't initialize with README (we already have files)
-7. Click "Create repository"
+### 1. Connect Repository to Vercel
 
-## Step 2: Push Code to GitHub
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click "New Project"
+3. Import your GitHub repository: `donaldmeckanzy/m-tracker-app`
+4. Configure the project settings:
+   - **Framework Preset**: Next.js
+   - **Root Directory**: `web` (important!)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `.next`
+   - **Install Command**: `npm install`
 
-After creating the repository, run these commands in your terminal (replace `YOUR_USERNAME` with your GitHub username):
+### 2. Environment Variables
+
+In your Vercel project settings, add these environment variables:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://rdfclpbgvqgdnypcuzhr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkZmNscGJndnFnZG55cGN1emhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgxNzY0MTcsImV4cCI6MjA0Mzc1MjQxN30.YbwJxAQrB7vGVYLEBMmdPTGy-5B5WUpzGPV2RQWS_zo
+```
+
+### 3. Domain Configuration
+
+Your app will be deployed to:
+- Production: `https://m-tracker-app.vercel.app`
+- Preview: `https://m-tracker-app-git-main-donaldmeckanzy.vercel.app`
+
+### 4. Testing the Deployment
+
+1. Generate a daily report in your M-Tracker desktop app
+2. Copy the shareable link
+3. Open the link in a browser
+4. Verify the report displays correctly
+
+## Manual Deployment (Alternative)
+
+If you prefer manual deployment:
 
 ```bash
-# Add your GitHub repository as remote
-git remote add origin https://github.com/YOUR_USERNAME/m-tracker-app.git
+# Install Vercel CLI
+npm i -g vercel
 
-# Push the code to GitHub
-git branch -M main
-git push -u origin main
+# Deploy from the web directory
+cd web
+vercel --prod
 ```
 
-## Step 3: Deploy to Vercel
+## Automatic Deployments
 
-1. Go to [Vercel.com](https://vercel.com)
-2. Sign in with your GitHub account
-3. Click "New Project"
-4. Find and select your `m-tracker-app` repository
-5. Vercel will automatically detect it's a Vite project
+Once connected, Vercel will automatically deploy:
+- **Production**: Every push to `main` branch
+- **Preview**: Every push to other branches
 
-### Configure Environment Variables
+## Domain Setup (Optional)
 
-In the Vercel deployment settings, add these environment variables:
+To use a custom domain:
+1. Go to your Vercel project settings
+2. Navigate to "Domains"
+3. Add your custom domain
+4. Update DNS records as instructed
+5. Update the `VITE_WEB_BASE_URL` in your desktop app accordingly
 
-```
-VITE_SUPABASE_URL=https://rdfclpbgvqgdnypcuzhr.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkZmNscGJndnFnZG55cGN1emhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgxNzY0MTcsImV4cCI6MjA0Mzc1MjQxN30.YbwJxAQrB7vGVYLEBMmdPTGy-5B5WUpzGPV2RQWS_zo
-```
+## Monitoring
 
-### Build Configuration
-
-Vercel should automatically detect the build settings, but verify:
-
-- **Framework Preset**: Vite
-- **Build Command**: `npm run build:web`
-- **Output Directory**: `dist`
-- **Install Command**: `npm install`
-
-## Step 4: Deploy
-
-1. Click "Deploy"
-2. Wait for the build to complete (usually 2-3 minutes)
-3. You'll get a live URL like `https://m-tracker-app.vercel.app`
-
-## Step 5: Update Sharing URLs
-
-After deployment, your accountability sharing will work with the live Vercel URL instead of localhost. The app will automatically generate proper sharing links.
-
-## Benefits of Vercel Deployment
-
-✅ **Live Sharing Links**: Share reports with anyone, anywhere
-✅ **Mobile Access**: Perfect viewing on phones and tablets  
-✅ **Auto-Deploy**: Pushes to GitHub automatically trigger new deployments
-✅ **Global CDN**: Fast loading worldwide
-✅ **HTTPS**: Secure sharing links
-✅ **Free Tier**: No cost for personal projects
+Monitor your deployment:
+- **Analytics**: Vercel Dashboard → Analytics
+- **Logs**: Vercel Dashboard → Functions → View Function Logs
+- **Performance**: Built-in Web Vitals tracking
 
 ## Troubleshooting
 
-### Build Fails
-- Check that all dependencies are in `package.json`
-- Verify environment variables are set correctly
-- Look at build logs in Vercel dashboard
+### Common Issues:
 
-### Sharing Links Don't Work
-- Ensure database schema is set up correctly
-- Check that Supabase RLS policies allow public access to shared reports
-- Verify the `shared_reports` table exists
+1. **Build Fails**: Check that root directory is set to `web`
+2. **Environment Variables**: Ensure Supabase keys are correctly set
+3. **404 Errors**: Verify routing configuration in `vercel.json`
+4. **Database Errors**: Check Supabase project status and RLS policies
 
-### Database Connection Issues
-- Make sure Supabase project is active
-- Check environment variables are correct
-- Verify API keys haven't expired
+### Debug Commands:
+
+```bash
+# Test build locally
+cd web
+npm run build
+
+# Test production build
+npm start
+
+# Check deployment logs
+vercel logs your-deployment-url
+```
+
+## Success Criteria
+
+✅ Deployment successful when:
+- Home page loads at your Vercel URL
+- Report pages work: `/report/[reportId]`
+- Desktop app generates working links
+- Reports display with proper styling
+- Mobile responsiveness works
 
 ## Next Steps
 
-Once deployed:
-1. Test the sharing functionality with the live URL
-2. Share your accountability reports with partners
-3. Monitor usage in Vercel dashboard
-4. Set up custom domain if desired (optional)
+1. Deploy to Vercel following the steps above
+2. Test the integration with your desktop app
+3. Share the link with accountability partners
+4. Monitor usage through Vercel analytics
 
-Your M-Tracker app will now have professional sharing capabilities perfect for accountability partnerships!
+Your M-Tracker daily sharing feature is now complete with a live web interface! 🎉
