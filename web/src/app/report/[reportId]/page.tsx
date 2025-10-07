@@ -30,25 +30,43 @@ interface SharedReport {
 }
 
 async function getReport(reportId: string): Promise<SharedReport | null> {
-  const { data, error } = await supabase
-    .from('shared_reports')
-    .select('*')
-    .eq('id', reportId)
-    .single()
+  try {
+    console.log('Fetching report with ID:', reportId)
+    
+    const { data, error } = await supabase
+      .from('shared_reports')
+      .select('*')
+      .eq('id', reportId)
+      .single()
 
-  if (error || !data) {
+    console.log('Supabase response:', { data, error })
+
+    if (error) {
+      console.error('Supabase error:', error)
+      return null
+    }
+    
+    if (!data) {
+      console.log('No data found for report ID:', reportId)
+      return null
+    }
+
+    // Check if report has expired
+    const now = new Date()
+    const expiresAt = new Date(data.expires_at)
+    
+    console.log('Expiration check:', { now, expiresAt, expired: now > expiresAt })
+    
+    if (now > expiresAt) {
+      console.log('Report has expired')
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.error('Error in getReport:', error)
     return null
   }
-
-  // Check if report has expired
-  const now = new Date()
-  const expiresAt = new Date(data.expires_at)
-  
-  if (now > expiresAt) {
-    return null
-  }
-
-  return data
 }
 
 export default async function ReportPage({ params }: { params: { reportId: string } }) {
@@ -56,6 +74,7 @@ export default async function ReportPage({ params }: { params: { reportId: strin
 
   if (!report) {
     notFound()
+    return // This line will never be reached, but helps TypeScript
   }
 
   const reportData = report.report_data
