@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useSessions } from '../../hooks/useSessions';
 import { useSettings } from '../../hooks/useSettings';
-import { formatDuration, formatTime } from '../../lib/utils';
+import { formatDuration } from '../../lib/utils';
 import { format, startOfWeek, endOfWeek, subDays, isWithinInterval } from 'date-fns';
-import { Calendar, Clock, TrendingUp } from 'lucide-react';
-import ShareReport from '../Sharing/ShareReport';
+import { Calendar, Clock } from 'lucide-react';
 
 type DateFilter = 'today' | 'yesterday' | 'this-week' | 'last-7-days';
 
@@ -172,9 +171,6 @@ const Dashboard: React.FC = () => {
             </div>
           )}
           </div>
-
-          {/* Share Report Section */}
-          <ShareReport selectedDate={new Date()} />
         </div>
       </div>
     </div>

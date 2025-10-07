@@ -49,7 +49,7 @@ const RecentTasks: React.FC<RecentTasksProps> = ({ onSelectTask, onResumeTask })
   }
 
   return (
-    <div className="bg-card border border-border rounded-lg p-4">
+    <div className="bg-card border border-border rounded-lg p-3 sm:p-4">
       <h4 className="text-sm font-medium text-foreground mb-3 flex items-center">
         <Clock className="w-4 h-4 mr-2" />
         Resume Today's Tasks
@@ -57,24 +57,27 @@ const RecentTasks: React.FC<RecentTasksProps> = ({ onSelectTask, onResumeTask })
       <p className="text-xs text-muted-foreground mb-3">
         Click any task to continue where you left off
       </p>
-      <div className="space-y-2">
+      <div className="space-y-2 max-h-80 overflow-y-auto">
         {todaysTasks.map((task) => (
           <button
             key={task.name}
             onClick={() => onResumeTask(task.name, task.sessionId, task.totalTime)}
-            className="w-full text-left p-3 rounded-md bg-accent hover:bg-accent/80 transition-colors"
+            className="w-full text-left p-2 sm:p-3 rounded-md bg-accent hover:bg-accent/80 transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-foreground truncate">
+                <div className="font-medium text-sm sm:text-base text-foreground truncate">
                   {task.name}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   Total today: {formatDuration(task.totalTime)}
                 </div>
               </div>
-              <div className="text-xs text-muted-foreground ml-2">
+              <div className="text-xs text-muted-foreground shrink-0 hidden sm:block">
                 Continue →
+              </div>
+              <div className="text-xs text-muted-foreground shrink-0 sm:hidden">
+                →
               </div>
             </div>
           </button>

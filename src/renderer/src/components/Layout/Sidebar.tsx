@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Timer, BarChart3, Settings, Home } from 'lucide-react';
+import { Timer, Share2, Settings, Home } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
   const navItems = [
     { to: '/timer', icon: Timer, label: 'Timer' },
     { to: '/dashboard', icon: Home, label: 'Dashboard' },
-    { to: '/analytics', icon: BarChart3, label: 'Analytics' },
+    { to: '/share', icon: Share2, label: 'Share Daily Report' },
     { to: '/settings', icon: Settings, label: 'Settings' },
   ];
 

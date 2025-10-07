@@ -5,7 +5,7 @@ import { Session } from '@supabase/supabase-js';
 import AuthPage from './components/Auth/AuthPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import Timer from './components/Timer/Timer';
-import Analytics from './components/Analytics/Analytics';
+import DailyShare from './components/DailyShare/DailyShare';
 import Settings from './components/Settings/Settings';
 import Sidebar from './components/Layout/Sidebar';
 import PublicReport from './components/Sharing/PublicReport';
@@ -71,7 +71,7 @@ function App() {
           <Route path="/" element={<Navigate to="/timer" replace />} />
           <Route path="/timer" element={<Timer />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/share" element={<DailyShare />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </main>

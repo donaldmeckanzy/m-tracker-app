@@ -16,11 +16,12 @@ A cross-platform desktop application for tracking work time and tasks. Built wit
 
 ### 🤝 Accountability & Sharing
 - **Daily Report Sharing**: Generate beautiful, shareable reports of your daily productivity
-- **Accountability Partners**: Share progress with friends, colleagues, or mentors without requiring them to have accounts
-- **Privacy Controls**: Choose what information to include (task details, goal progress, etc.)
-- **Professional Reports**: Clean, motivational reports with progress visualization and productivity ratings
-- **Secure Links**: Time-limited, secure sharing links that expire automatically (24h, 7d, or 30d)
+- **Web Interface**: Reports are viewable on a live web interface at `https://m-tracker-app.vercel.app`
+- **Automatic Expiration**: Reports automatically expire daily for privacy and accountability
+- **Seamless Link Copying**: One-click copy to clipboard for easy sharing
+- **No Duration Selection**: Simplified UX - just generate and share today's report
 - **No Registration Required**: Accountability partners can view reports without creating accounts
+- **Mobile Responsive**: Reports look great on all devices
 
 ### 🎨 Design
 - **Modern UI**: Clean, minimalist interface inspired by Linear, Raycast, and Arc Browser
@@ -101,7 +102,7 @@ m-tracker-app/
 │           ├── components/
 │           │   ├── Timer/           # Timer display and controls
 │           │   ├── Dashboard/       # Today's summary and stats
-│           │   ├── Analytics/       # Charts and calendar view
+│           │   ├── DailyShare/      # Daily report sharing
 │           │   ├── Settings/        # App preferences
 │           │   ├── Auth/           # Authentication pages
 │           │   ├── Layout/         # Sidebar and main layout
@@ -113,6 +114,13 @@ m-tracker-app/
 │           │   └── timerStore.ts   # Zustand timer state
 │           ├── App.tsx             # Main app component
 │           └── main.tsx            # React entry point
+├── web/                     # Next.js web interface for reports
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── report/[reportId]/  # Dynamic report pages
+│   │   │   └── ...                 # Other pages
+│   │   └── lib/                    # Shared utilities
+│   └── package.json                # Web app dependencies
 ├── dist/                    # Built files
 ├── release/                # Distribution packages
 └── docs/                   # Documentation
